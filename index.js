@@ -15,7 +15,7 @@ var registerContainerStream = function () {
         
         stream.on('data', function (buffer) {
           if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
-            var str = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer;
+            var str = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
             if (str[str.length - 1] !== '\n') str += '\n';
             process.stdout.write(str);
           }
