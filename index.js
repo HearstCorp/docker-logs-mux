@@ -9,7 +9,7 @@ var registerContainerStreams = function () {
       if (streams[containerInfo.Id] !== undefined) {
         return;
       }
-      if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
+      if(containerInfo.Id.substr(0,12) === process.env.HOSTNAME) {
         console.warn('Skipping stream', containerInfo.Id, containerInfo.Names, 'because it matches hostname', process.env.HOSTNAME);
         return;
       }
