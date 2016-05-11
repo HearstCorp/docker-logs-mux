@@ -3,7 +3,7 @@ var docker = new Docker({socketPath: '/tmp/docker.sock'});
 
 var streams = {};
 
-var registerContainerStream = function () {
+var registerContainerStreams = function () {
   docker.listContainers(function (err, containers) {
     containers.forEach(function (containerInfo) {
       docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 20}, function (err, stream) { 
@@ -43,4 +43,5 @@ var registerContainerStream = function () {
   });  
 }
 
-setInterval(registerContainerStream, 10 * 1000)
+setInterval(registerContainerStreams, 10 * 1000)
+registerContainerStreams()
