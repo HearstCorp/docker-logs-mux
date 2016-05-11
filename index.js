@@ -35,3 +35,5 @@ var registerContainerStream = function () {
     });
   });  
 }
+
+setInterval(registerContainerStream, 10 * 1000)
