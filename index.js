@@ -25,7 +25,6 @@ var registerContainerStreams = function () {
         });
         stream.on('end', function () {
           console.log('docker-logs-mux:', 'Stream for', containerInfo.Id, containerInfo.Names, 'has ended.');
-          stream.close();
           streams[containerInfo.Id] = undefined;
         })
         stream.on('close', function () {
