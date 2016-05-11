@@ -9,7 +9,7 @@ var registerContainerStreams = function () {
       if (streams[containerInfo.Id] !== undefined) {
         return;
       }
-      docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 20}, function (err, stream) { 
+      docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 100}, function (err, stream) { 
         if (err) {
           console.error('docker-logs-mux:', 'we could not process the stream for', container.Id, container.Names);
           return;
