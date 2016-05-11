@@ -15,7 +15,9 @@ var registerContainerStream = function () {
         
         stream.on('data', function (buffer) {
           if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
-            process.stdout.write(containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer );
+            var str = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer;
+            if (str[str.length - 1] !== '\n') str += '\n';
+            process.stdout.write(str);
           }
         });
         stream.on('end', function () {
