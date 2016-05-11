@@ -19,7 +19,7 @@ var registerContainerStreams = function () {
           if (buffer.toString('utf8').trim() === '') return;
           if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
             var logMessage = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
-            if (logMessage[str.length - 1] !== '\n') logMessage += '\n';
+            if (logMessage[logMessage.length - 1] !== '\n') logMessage += '\n';
             process.stdout.write(logMessage);
           }
         });
