@@ -9,6 +9,10 @@ var registerContainerStreams = function () {
       if (streams[containerInfo.Id] !== undefined) {
         return;
       }
+      if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
+        console.warn('Skipping stream', containerInfo.Id, containerInfo.Names, 'because it matches hostname', process.env.HOSTNAME);
+        return;
+      }
       docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 100}, function (err, stream) { 
         if (err) {
           console.error('docker-logs-mux:', 'we could not process the stream for', container.Id, container.Names);
@@ -17,11 +21,9 @@ var registerContainerStreams = function () {
         console.log('docker-logs-mux:', 'Adding stream for', containerInfo.Id, containerInfo.Names)
         stream.on('data', function (buffer) {
           if (buffer.toString('utf8').trim() === '') return;
-          if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
-            var logMessage = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
-            if (logMessage[logMessage.length - 1] !== '\n') logMessage += '\n';
-            process.stdout.write(logMessage);
-          }
+          var logMessage = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
+          if (logMessage[logMessage.length - 1] !== '\n') logMessage += '\n';
+          process.stdout.write(logMessage);
         });
         stream.on('end', function () {
           console.log('docker-logs-mux:', 'Stream for', containerInfo.Id, containerInfo.Names, 'has ended.');
