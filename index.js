@@ -6,12 +6,12 @@ var streams = {};
 var registerContainerStreams = function () {
   docker.listContainers(function (err, containers) {
     containers.forEach(function (containerInfo) {
+      if (streams[containerInfo.Id] !== undefined) {
+        return;
+      }
       docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 20}, function (err, stream) { 
         if (err) {
           console.error('docker-logs-mux:', 'we could not process the stream for', container.Id, container.Names);
-          return;
-        }
-        if (streams[containerInfo.Id] !== undefined) {
           return;
         }
         console.log('docker-logs-mux:', 'Adding stream for', containerInfo.Id, containerInfo.Names)
