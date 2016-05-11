@@ -18,9 +18,9 @@ var registerContainerStreams = function () {
         stream.on('data', function (buffer) {
           if (buffer.toString('utf8').trim() === '') return;
           if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
-            var str = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
-            if (str[str.length - 1] !== '\n') str += '\n';
-            process.stdout.write(str);
+            var logMessage = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
+            if (logMessage[str.length - 1] !== '\n') logMessage += '\n';
+            process.stdout.write(logMessage);
           }
         });
         stream.on('end', function () {
