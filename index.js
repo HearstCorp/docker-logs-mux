@@ -16,6 +16,7 @@ var registerContainerStream = function () {
         }
         console.log('docker-logs-mux:', 'Adding stream for', containerInfo.Id, containerInfo.Names)
         stream.on('data', function (buffer) {
+          if (buffer.toString('utf8').trim() === '') return;
           if(containerInfo.Id.substr(0,12) !== process.env.HOSTNAME) {
             var str = containerInfo.Id.substr(0,12) + ' - ' + containerInfo.Names + ' : ' + buffer.toString('utf8');
             if (str[str.length - 1] !== '\n') str += '\n';
