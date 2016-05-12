@@ -10,7 +10,9 @@ var registerContainerStreams = function () {
         return;
       }
       if(containerInfo.Id.substr(0,12) === process.env.HOSTNAME) {
-        console.warn('Skipping stream', containerInfo.Id, containerInfo.Names, 'because it matches hostname', process.env.HOSTNAME);
+        if(process.env.LOG_LEVEL === 'info') {
+          console.warn('Skipping stream', containerInfo.Id, containerInfo.Names, 'because it matches hostname', process.env.HOSTNAME);
+        }
         return;
       }
       docker.getContainer(containerInfo.Id).logs({stderr: true, stdout: true, follow: true, tail: 100}, function (err, stream) { 
